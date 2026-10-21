@@ -1,4 +1,14 @@
-# Gestaltung 03.3 – Prüfung vom 21.10.2026
+# Gestaltung 03.3.1 – Fotoausrichtung, 21.10.2026
+
+- Vorher-Foto in der Browserdarstellung anhand von vier korrespondierenden Balkon-/Stützenecken auf die Fassadenebene des Nachher-Fotos ausgerichtet. Geometrische Perspektivkorrektur; die Originaldateien bleiben erhalten.
+- Gemeinsamer Bildausschnitt auf Haus und Dach: x=180, y=145, 680 × 510 Pixel innerhalb der 1024 × 768 Originale. Kein wechselnder Bildmaßstab beim Bewegen des Reglers.
+- Die feste Clipping-Ebene liegt außerhalb des transformierten Fotos, damit die Trennlinie immer unter dem Griff bleibt. Die Darstellung wird beim Ändern der Browserbreite neu berechnet.
+- 1280 × 900, 547 × 729 und 390 × 844 im Browser geprüft. Vollansichten, 50-Prozent-Vergleich, Tastatur (Home/End), direktes Ziehen bis 75 Prozent und responsive Neuberechnung funktionieren. Kein horizontaler Überlauf oder Konsolenfehler.
+- Struktur- und Skriptprüfung erfolgreich. Restliche Perspektivunterschiede außerhalb der gewählten Fassadenebene bleiben möglich und werden im Bildtext benannt.
+
+## Bisheriger Prüfstand
+
+## Gestaltung 03.3 – Prüfung vom 21.10.2026
 
 ## Größeres Modell und Fotovergleich
 

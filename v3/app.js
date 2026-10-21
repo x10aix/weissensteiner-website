@@ -25,6 +25,26 @@ tabs.forEach((tab, index) => {
 const comparison = document.getElementById('project-comparison');
 const comparisonRange = document.getElementById('project-comparison-range');
 const comparisonButtons = [...document.querySelectorAll('[data-comparison]')];
+// Register the original before photograph to the after photograph's facade.
+// Four corresponding balcony/column corners define the existing facade plane.
+// Source -> reference pixels: (215,455)->(245,473), (614,460)->(613,468),
+// (219,603)->(252,604), (588,603)->(598,605), in the 1024 x 768 originals.
+// Only browser presentation changes; both source photographs remain untouched.
+// Both views share the source-space crop x=180, y=145, width=680, height=510.
+const facadeRegistration = [
+  [.7308512420, -.0083311506, 69.13560832],
+  [-.1020570452, .7309591637, 118.87450325],
+  [-.0001726739977, -.0001204435554, 1]
+];
+function alignComparison() {
+  const scale = comparison.getBoundingClientRect().width / 680;
+  if (!scale) return;
+  const h = facadeRegistration;
+  const matrix = [h[0][0], h[1][0], 0, h[2][0]/scale, h[0][1], h[1][1], 0, h[2][1]/scale, 0, 0, 1, 0, h[0][2]*scale, h[1][2]*scale, 0, 1];
+  comparison.querySelector('.comparison-before').style.transform = 'matrix3d(' + matrix.join(',') + ')';
+}
+new ResizeObserver(alignComparison).observe(comparison);
+alignComparison();
 function updateComparison(value) {
   const before = Math.max(0, Math.min(100, Math.round(Number(value))));
   comparisonRange.value = before;
