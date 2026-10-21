@@ -17,3 +17,24 @@ html{scroll-padding-top:32px}body{font-family:var(--sans);background:var(--paper
 @media(max-width:650px) and (max-height:700px){.location-label{display:none}.spatial-title{top:21%}.hero-word{font-size:26vw}.hero-thought{font-size:22px;margin-top:8px}.model-view{top:33%;height:48%}.hero-invitation{bottom:16%}.hero-invitation p{font-size:8px}.spatial-cta{font-size:9px}.scene-navigation{bottom:12px}.scene-chapters button{min-height:36px}.scroll-prompt{font-size:6px}}
 .contact-aside .email-contact{font-family:inherit;font-size:clamp(14px,1.45vw,21px);max-width:100%;overflow-wrap:anywhere}
 @media(max-width:650px){.contact-aside .email-contact{font-size:16px}}
+/* Three building stories: each chapter gets space to develop while the page scrolls normally. */
+.spatial-story.is-interactive{height:600svh;min-height:3600px}
+.location-label #chapter-label{display:inline;color:var(--orange);font-weight:650}
+.spatial-story[data-scene-phase="3"] .hero-word{font-size:15.3vw}
+.scene-chapters{gap:20px}.scene-chapters button{white-space:nowrap}
+.annotation-top{right:3%;max-width:32%;font-size:8px}.annotation-top i{width:34px;flex-shrink:0}
+@media(max-width:900px){.spatial-story[data-scene-phase="3"] .hero-word{font-size:15.5vw}.scene-chapters{gap:12px}}
+@media(max-width:650px){.spatial-story.is-interactive{height:540svh;min-height:3200px}.spatial-story[data-scene-phase="3"] .hero-word{font-size:25vw}.scene-chapters{gap:10px}.scene-chapters button{font-size:9px;gap:4px}.scene-chapters button>span{font-size:7px}.location-label #chapter-label{margin-left:13px;font-size:7px}.scene-caption{font-size:7px}.hero-invitation p{font-size:9px;max-width:185px}.hero-thought{max-width:270px}}
+@media(max-width:360px){.scene-chapters{gap:8px}.scene-chapters button{font-size:8px}.hero-invitation p{font-size:8px;max-width:150px}.hero-thought{font-size:25px}.location-label #chapter-label{font-size:6px}.scene-caption{font-size:6px}}
+@media(prefers-reduced-motion:reduce){.spatial-story.is-interactive{height:100svh;min-height:0}}
+.scene-progress{height:20px;background:transparent}
+.scene-progress:before{content:'';position:absolute;left:0;right:0;top:9px;height:2px;background:#bec0b0}
+.scene-progress>span{position:absolute;top:9px;height:2px;pointer-events:none}
+#build-progress{position:absolute;inset:0;width:100%;height:20px;min-height:0;margin:0;padding:0;background:transparent;border:0;appearance:none;cursor:ew-resize}
+#build-progress::-webkit-slider-runnable-track{height:2px;background:transparent}
+#build-progress::-webkit-slider-thumb{appearance:none;width:10px;height:10px;border:0;border-radius:50%;background:var(--orange);margin-top:-4px}
+#build-progress::-moz-range-track{height:2px;background:transparent}
+#build-progress::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:50%;background:var(--orange)}
+#build-progress:focus-visible{outline-offset:-3px}
+.is-still .scene-progress{display:none}
+.spatial-story:not(.is-interactive) .scene-progress,.spatial-story:not(.is-interactive) .scroll-prompt{display:none}
