@@ -9,6 +9,7 @@
 - 1440 × 900, 390 × 844 und 320 × 740: Neubau-, Ausbau- und Zubauansichten im Browser geprüft, kein horizontaler Seitenüberlauf.
 - Ausbau-Kontakt übernimmt korrekt „Zubau / Ausbau“ und öffnet die freiwilligen Angaben.
 - 1280 × 720: ruhige Ansicht zeigt das vollständige Haus mit zusätzlichem Geschoss, Garage und Pergola. Die Scrollstrecke verkürzt sich auf 720 px. Wiedereinschalten der Bewegung funktioniert; keine Konsolenfehler oder Warnungen.
+- 547 × 729 (aktuelle Vorschaugröße): Dachanhebung bei 0,440 geprüft. Modell für mittlere Mobilbreiten tiefer angeordnet, sodass die Überschrift frei bleibt; CSS-Stand 3.2.1.
 - Fünf neue Prüfungen kontrollieren Reihenfolge, Dachabstand, vollständige Endzustände und Rückwärtsdurchlauf der Baugeschichte. Zusammen mit den elf Formularprüfungen: 16 erfolgreich.
 - Strukturprüfung und Skript-Syntax erfolgreich. Texte, Modell und Bewegungsfolge sind eigens erstellt; Three.js ist die mitgelieferte Darstellungsbibliothek.
 
