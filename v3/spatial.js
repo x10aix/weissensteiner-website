@@ -1,10 +1,12 @@
 /* Three.js 0.186.1, locally hosted. No scroll hijacking, telemetry or asset CDN. */
+import { buildState, ramp } from './build-timeline.mjs?v=3.2';
 const story = document.querySelector('.spatial-story');
 const stage = document.querySelector('.spatial-stage');
 const view = document.querySelector('.model-view');
 const canvas = document.getElementById('house-canvas');
 const motionButton = document.getElementById('motion-toggle');
 const chapters = document.querySelector('.scene-chapters');
+const scrubber = document.getElementById('build-progress');
 const chapterButtons = [...chapters.querySelectorAll('button')];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let renderer, frame = 0, failed = false;
@@ -53,12 +55,15 @@ try {
   const grass = material(0x87916b), leaves = material(0x536a4c), trunkMat = material(0x897051);
   const edgeMat = new THREE.LineBasicMaterial({color:0x5f6757, transparent:true, opacity:.22});
   const model = new THREE.Group(); scene.add(model);
-  const terrain = new THREE.Group(), ground = new THREE.Group(), upper = new THREE.Group(), roof = new THREE.Group(), wing = new THREE.Group();
-  model.add(terrain, ground, upper, roof, wing);
+  const terrain = new THREE.Group(), ground = new THREE.Group(), upper = new THREE.Group(), roof = new THREE.Group(), stairs = new THREE.Group();
+  const garageBase = new THREE.Group(), garageWalls = new THREE.Group(), garageDoor = new THREE.Group(), garageRoof = new THREE.Group();
+  const pergolaBase = new THREE.Group(), pergolaPosts = new THREE.Group(), pergolaBeams = new THREE.Group(), pergolaSlats = new THREE.Group();
+  model.add(terrain, ground, upper, roof, stairs, garageBase, garageWalls, garageDoor, garageRoof, pergolaBase, pergolaPosts, pergolaBeams, pergolaSlats);
   function box(parent, w, h, d, x, y, z, mat, edges = false) {
     const geo = new THREE.BoxGeometry(w, h, d);
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(x, y, z); mesh.castShadow = mesh.receiveShadow = true;
+    mesh.userData.homeY = y; mesh.userData.height = h;
     parent.add(mesh);
     if (edges) mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat));
     return mesh;
@@ -71,13 +76,11 @@ try {
     parent.add(item); return item;
   }
   // A physical presentation base, with a drawing grid and dimension marks.
-  box(terrain, 9.2, .18, 6.7, .45, -.42, 0, slab, true);
-  box(terrain, 9.1, .025, 6.6, .45, -.315, 0, material(0xe0d9c6));
-  for (let x=-4; x<=4.5; x+=.5) line(terrain, [[x,-.297,-3.2],[x,-.297,3.2]], 0xaeb19f, .22);
-  for (let z=-3; z<=3; z+=.5) line(terrain, [[-4,-.297,z],[4.9,-.297,z]], 0xaeb19f, .22);
-  box(terrain, 7.4, .12, 4.2, .5, -.19, .15, plaster, true);
-  box(terrain, 4.3, .04, 1.05, -.1, -.1, 2.65, timber);
-  for(let x=-2.2;x<2.1;x+=.16) line(terrain,[[x,-.074,2.13],[x,-.074,3.17]],0x765331,.3);
+  box(terrain, 10, .18, 9, .5, -.42, 1.3, slab, true);
+  box(terrain, 9.9, .025, 8.9, .5, -.315, 1.3, material(0xd4d5bd));
+  for (let x=-4; x<=5; x+=.5) line(terrain, [[x,-.297,-3],[x,-.297,5.6]], 0xaeb19f, .22);
+  for (let z=-3; z<=5.5; z+=.5) line(terrain, [[-4.4,-.297,z],[5.4,-.297,z]], 0xaeb19f, .22);
+  box(terrain, 5, .12, 3.8, 0, -.19, 0, plaster, true);
   // Low planting bands keep the scene recognizably architectural rather than a toy world.
   box(terrain, 1.25, .08, 4.8, -3.32, -.23, -.2, grass);
   box(terrain, 1.7, .08, 1.6, 4.08, -.23, -2.35, grass);
@@ -112,7 +115,7 @@ try {
   box(ground,.06,.3,.06,-.3,.2,.91,frameMat);
   box(ground,1.25,.06,.62,1.13,.66,.8,timber);
   for(const x of [.65,1.6]) for(const z of [.58,1.02]) box(ground,.05,.55,.05,x,.36,z,frameMat);
-  for(let i=0;i<10;i++) box(ground,.65,.12,.18,1.56,.14+i*.135,-1.45+i*.17,slab);
+  for(let i=0;i<10;i++) box(stairs,.65,.12,.18,1.56,.14+i*.135,-1.45+i*.17,slab);
   // Upper floor: plaster, glazing and fine vertical timber battens.
   box(upper,4.95,.17,3.75,0,0,0,slab,true);
   box(upper,4.8,1.25,.16,0,.69,-1.72,plaster,true);
@@ -143,31 +146,43 @@ try {
   const gableShape=new THREE.Shape();gableShape.moveTo(-2.4,0);gableShape.lineTo(0,1.14);gableShape.lineTo(2.4,0);gableShape.closePath();
   const gableGeo=new THREE.ExtrudeGeometry(gableShape,{depth:.12,bevelEnabled:false});
   for(const z of [-1.78,1.66]) {const mesh=new THREE.Mesh(gableGeo,plaster);mesh.position.z=z;mesh.castShadow=mesh.receiveShadow=true;roof.add(mesh);}
-  // A lower garden wing gives the model an asymmetric, open silhouette.
-  box(wing,2.1,.14,2.8,3.45,.02,-.35,slab,true);
-  box(wing,2.1,1.18,.15,3.45,.67,-1.68,timber,true);
-  box(wing,.15,1.18,2.8,4.43,.67,-.35,timber,true);
-  for(let z=-1.66;z<1;z+=.13) box(wing,.025,1.18,.035,4.52,.67,z,paleFrame);
-  box(wing,2.12,.12,2.88,3.45,1.31,-.35,plaster,true);
-  box(wing,2,1.13,.025,3.45,.68,1.02,glass);
-  for(const x of [2.47,3.45,4.42])box(wing,.045,1.2,.055,x,.67,1.04,frameMat);
-  box(wing,2,.045,.055,3.45,.11,1.04,frameMat);
-  // Guide lines connect corresponding corners in the exploded view.
+  // Garage: its own foundations, opaque walls, sectional door and flat roof.
+  box(garageBase,2.48,.15,3.45,3.75,-.02,-.1,slab,true);
+  box(garageBase,2.3,.035,3.65,3.75,-.27,3.38,material(0xc1c0b2));
+  box(garageWalls,2.35,1.34,.16,3.75,.72,-1.67,plaster,true);
+  for(const x of [2.655,4.845]) box(garageWalls,.16,1.34,3.3,x,.72,-.1,plaster,true);
+  box(garageWalls,2.35,.19,.16,3.75,1.295,1.47,plaster,true);
+  box(garageDoor,2.02,1.16,.055,3.75,.66,1.565,frameMat,true);
+  for(let y=.14;y<1.2;y+=.16) box(garageDoor,2.01,.012,.015,3.75,y,1.6,paleFrame);
+  box(garageDoor,.26,.035,.03,3.75,.48,1.62,paleFrame);
+  box(garageRoof,2.58,.15,3.55,3.75,1.465,-.1,slab,true);
+  box(garageRoof,2.4,.025,3.38,3.75,1.552,-.1,material(0x859078));
+  // Open pergola: a timber deck, separate posts, beams, then individual rafters.
+  box(pergolaBase,3.4,.1,2.85,-.9,-.2,3.5,timber,true);
+  for(let x=-2.5;x<.8;x+=.14) box(pergolaBase,.009,.006,2.8,x,-.146,3.5,material(0x946344));
+  for(const x of [-2.4,.6])for(const z of [2.3,4.65])box(pergolaPosts,.11,1.92,.11,x,.81,z,timber,true);
+  for(const x of [-2.4,.6])box(pergolaBeams,.14,.18,2.72,x,1.84,3.475,timber,true);
+  for(const z of [2.3,4.65])box(pergolaBeams,3.32,.18,.14,-.9,1.84,z,timber,true);
+  for(let i=0;i<12;i++)box(pergolaSlats,3.32,.14,.075,-.9,2,2.18+i*.235,timber,true);
+  // Fine construction guides emphasize the gap while the roof is being lifted.
   const guides=new THREE.Group();model.add(guides);
-  for(const x of [-2.4,2.4])for(const z of [-1.8,1.8])line(guides,[[x,.15,z],[x,5.9,z]],0x898d78,.38,true);
+  for(const x of [-2.4,2.4])for(const z of [-1.8,1.8])line(guides,[[x,.15,z],[x,4.87,z]],0x898d78,.38,true);
   const shadow=new THREE.Mesh(new THREE.PlaneGeometry(200,200),new THREE.ShadowMaterial({opacity:.13}));
   shadow.rotation.x=-Math.PI/2;shadow.position.y=-.54;shadow.receiveShadow=true;scene.add(shadow);
 
   let target=0, current=0, phase=-1, paused=false, visible=true, pointerX=0, pointerY=0, smoothX=0, smoothY=0;
   let size={width:1,height:1}, last=0;
-  const states=[['Raum.','Zum<br>Weiterdenken.'],['Form.','Aus vielen<br>guten Ideen.'],['Plan.','Für Ihren<br>nächsten Schritt.']];
+  const states=[
+    {word:'Neu.',thought:'Von Grund<br>auf.',label:'01 / Neubau',copy:'Vom Fundament über die Wände<br>bis zum fertigen Haus.',intent:'Neubau',note:'Ein Haus entsteht.'},
+    {word:'Mehr.',thought:'Nach oben<br>weiterdenken.',label:'02 / Ausbau',copy:'Dach anheben. Geschoss ergänzen.<br>Mehr Platz am selben Ort.',intent:'Zubau / Ausbau',note:'Ein Stockwerk kommt hinzu.'},
+    {word:'Weiter.',thought:'In den Garten<br>weiterdenken.',label:'03 / Zubau',copy:'Garage und offene Pergola.<br>Neue Möglichkeiten im Garten.',intent:'Kleines Bauvorhaben',note:'Garage und Pergola entstehen.'}
+  ];
   const clamp=(n,a=0,b=1)=>Math.min(b,Math.max(a,n));
-  const smooth=n=>{const v=clamp(n);return v*v*(3-2*v);};
   const still=()=>paused||reduced.matches;
   function readScroll() {
     const rect=story.getBoundingClientRect();
     const distance=story.offsetHeight-stage.offsetHeight;
-    target=still()? .5 : clamp(-rect.top/Math.max(1,distance));
+    target=still()? 1 : clamp(-rect.top/Math.max(1,distance));
     requestRender();
   }
   function resize() {
@@ -186,44 +201,77 @@ try {
     motionButton.innerHTML=paused?'Bewegung zulassen <span aria-hidden="true">▶</span>':'Bewegung anhalten <span aria-hidden="true">Ⅱ</span>';
     // Maintain document position when a user collapses the scroll sequence.
     if(still()&&oldTop<0&&oldTop+oldHeight>0) window.scrollTo({top:story.offsetTop,behavior:'instant'});
-    if(still()) {current=.5;pointerX=pointerY=smoothX=smoothY=0;}
+    if(still()) {current=1;pointerX=pointerY=smoothX=smoothY=0;}
     readScroll();
+    current=target;
   }
   function render(now) {
     frame=0;
     if(failed||!visible||document.hidden)return;
     const dt=Math.min(64,now-last||16);last=now;
     const ease=1-Math.exp(-dt/95);
-    current=still()? .5 : current+(target-current)*ease;
+    current=still()? 1 : current+(target-current)*ease;
     smoothX+=(pointerX-smoothX)*ease;smoothY+=(pointerY-smoothY)*ease;
-    const assemble=smooth(current/.5), open=smooth((current-.62)/.38);
-    ground.position.y=.43*(1-assemble);
-    upper.position.set(-.22*(1-assemble),1.57+1.1*(1-assemble),0);
-    roof.position.set(.15*(1-assemble)+.35*open,2.94+2.24*(1-assemble)+1.65*open,-.9*open);
-    roof.rotation.z=.055*(1-assemble)-.035*open;
-    wing.position.set(.5*(1-assemble),.34*(1-assemble),.13*(1-assemble));
-    guides.visible=assemble<.92;
-    model.rotation.y=-.12+current*.56+smoothX*.055;
-    const elevation=.58+open*.32+smoothY*.02;
-    camera.position.set(11*Math.cos(.93),6.4+elevation*5,11*Math.sin(.93));
-    const lookY=2.35+.55*(1-assemble)+.35*open-(size.width>size.height?.25:0);
-    camera.lookAt(.35,lookY,0);
+    const build=buildState(current);
+    function grow(mesh,amount){
+      mesh.visible=amount>.001;
+      mesh.scale.y=Math.max(.001,amount);
+      mesh.position.y=mesh.userData.homeY-mesh.userData.height/2*(1-amount);
+    }
+    function growGroup(group,amount){group.children.forEach(mesh=>grow(mesh,amount));}
+    function arrive(group,amount,lift=1){group.visible=amount>.001;group.position.y=lift*(1-amount);}
+    ground.children.forEach((mesh,index)=>{
+      const isWindow=mesh.material===glass||mesh.material===frameMat;
+      grow(mesh,index===0?1:isWindow?build.windows:build.walls);
+    });
+    upper.visible=build.floor>.001;
+    upper.position.set(build.upperX,build.upperY,0);
+    upper.scale.setScalar(.86+.14*build.floor);
+    stairs.visible=build.floor>.15;
+    roof.position.set(0,build.roofY,0);
+    roof.rotation.z=.025*(1-build.firstRoof);
+    guides.visible=build.guides>.02;
+    arrive(garageBase,build.garageBase,.3);
+    growGroup(garageWalls,build.garageWalls);
+    arrive(garageDoor,build.garageDoor,.7);
+    arrive(garageRoof,build.garageRoof,1.1);
+    arrive(pergolaBase,build.pergolaBase,.25);
+    pergolaPosts.children.forEach((mesh,i)=>grow(mesh,ramp(current,.85+i*.008,.89+i*.008)));
+    arrive(pergolaBeams,build.pergolaBeams,.7);
+    pergolaSlats.children.forEach((mesh,i)=>{
+      const p=ramp(current,.922+i*.003,.942+i*.003);
+      mesh.visible=p>.001;mesh.position.y=mesh.userData.homeY+.7*(1-p);
+    });
+    model.rotation.y=-.12+.1*build.firstRoof-.19*build.gardenView+smoothX*.055;
+    const roofHigh=build.lift*(1-build.reseat);
+    camera.position.set(11*Math.cos(.93),8.8+.4*roofHigh-.5*build.gardenView+smoothY*.1,11*Math.sin(.93));
+    const lookY=1.65+.5*(1-build.firstRoof)+.75*roofHigh+.25*build.floor-(size.width>size.height?.4:0);
+    camera.lookAt(.4,lookY,.6+build.gardenView*.3);
     const aspect=size.width/Math.max(1,size.height);
-    const height=Math.max(11.3,11.4/aspect);
+    const height=Math.max(11.4,12/aspect);
     camera.left=-height*aspect/2;camera.right=height*aspect/2;camera.top=height/2;camera.bottom=-height/2;
-    camera.zoom=1+.04*assemble-.04*open;
+    camera.zoom=1.06-.06*build.gardenView;
     camera.updateProjectionMatrix();
     renderer.render(scene,camera);
-    const nextPhase=still()?0:current<.27?0:current<.68?1:2;
+    const nextPhase=build.phase;
     if(nextPhase!==phase) {
       phase=nextPhase;
-      document.querySelector('.hero-word').textContent=states[phase][0];
-      document.querySelector('.hero-thought').innerHTML=states[phase][1];
+      document.querySelector('.hero-word').textContent=states[phase].word;
+      document.querySelector('.hero-thought').innerHTML=states[phase].thought;
+      document.getElementById('chapter-label').textContent=states[phase].label;
+      document.querySelector('.annotation-top span:first-child').textContent=String(phase+1).padStart(2,'0');
+      document.querySelector('.hero-invitation p').innerHTML=states[phase].copy;
+      document.querySelector('.spatial-cta').dataset.intent=states[phase].intent;
+      document.querySelector('.annotation-bottom span:last-child').textContent=states[phase].note;
       chapterButtons.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===phase)));
       story.dataset.scenePhase=String(phase+1);
     }
     document.querySelector('.scene-progress span').style.transform=`scaleX(${still()?0:current})`;
     story.dataset.sceneProgress=current.toFixed(3);
+    document.getElementById('construction-step').textContent=still()?'Neubau · Ausbau · Zubau':build.step;
+    scrubber.value=Math.round(target*1000);
+    scrubber.setAttribute('aria-valuetext',states[build.phase].label.slice(5)+': '+build.step);
+    story.dataset.buildState=JSON.stringify({roofY:+build.roofY.toFixed(3),floor:+build.floor.toFixed(3),garage:+build.garageWalls.toFixed(3),pergola:+build.pergolaSlats.toFixed(3)});
     if(!view.classList.contains('is-ready')) {view.classList.add('is-ready');story.dataset.renderState='webgl';}
     if(Math.abs(target-current)>.0003||Math.abs(pointerX-smoothX)>.001||Math.abs(pointerY-smoothY)>.001)requestRender();
   }
@@ -232,6 +280,11 @@ try {
     const distance=story.offsetHeight-stage.offsetHeight;
     window.scrollTo({top:story.offsetTop+distance*Number(button.dataset.scene),behavior:reduced.matches?'instant':'smooth'});
   }));
+  scrubber.addEventListener('input',()=>{
+    const distance=story.offsetHeight-stage.offsetHeight;
+    window.scrollTo({top:story.offsetTop+distance*Number(scrubber.value)/1000,behavior:'instant'});
+    readScroll();
+  });
   motionButton.addEventListener('click',()=>{paused=!paused;updateMode();});
   window.addEventListener('scroll',readScroll,{passive:true});
   window.addEventListener('resize',resize,{passive:true});

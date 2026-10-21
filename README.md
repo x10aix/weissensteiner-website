@@ -8,15 +8,17 @@ Gestaltungsvorschau für das Bauzeichenbüro Ing. Josef Weissensteiner in St. P�
 
 ## Gestaltung 03
 
-Ein räumlicher Einstieg mit einem eigens aufgebauten, illustrativen Hausmodell. Beim normalen Scrollen fügen sich Dach, Obergeschoss, Erdgeschoss und Gartenflügel zusammen; anschließend öffnet sich das Dach und die Kamera zeigt den Grundriss. Die drei Stationen sind auch über Schaltflächen erreichbar. Große Typografie, warmer Kupferton und eine helle Modellbaufläche bestimmen den Einstieg. Die folgenden Abschnitte führen durch Vorhaben, echte Projektabbildungen, Zusammenarbeit, Bauwissen, Vorbereitung und Kontakt.
+Ein räumlicher Einstieg mit einem eigens in Code aufgebauten Hausmodell und drei aufeinanderfolgenden Baugeschichten. **Neubau:** Wände und Verglasung entstehen, das Dach senkt sich auf das zunächst eingeschossige Haus. **Ausbau:** Das vorhandene Dach hebt sich, ein zusätzliches Geschoss wird darunter eingeschoben, anschließend setzt sich das Dach auf die neue Höhe. **Zubau:** Im Garten entstehen Garage mit Sektionaltor und offene Holzpergola; deren Stützen, Träger und Sparren werden nacheinander aufgebaut. Das bestehende Haus bleibt dabei stehen.
+
+Die Folge ist an normales Scrollen gebunden und rückwärts durchlaufbar. Drei Kapitelschaltflächen und eine auch per Tastatur bedienbare Fortschrittsleiste erlauben gezielte Sprünge. Texte, Bauabschnitt und Kontaktvorwahl folgen dem jeweils gezeigten Vorhaben. Große Typografie, warmer Kupferton und eine helle Modellbaufläche bestimmen den Einstieg. Die folgenden Abschnitte führen durch Vorhaben, echte Projektabbildungen, Zusammenarbeit, Bauwissen, Vorbereitung und Kontakt.
 
 Das Modell ist ausdrücklich eine freie Illustration, kein ausgeführtes Projekt von Josef und keine technische Bauplanung. Die bisherigen Varianten bleiben unverändert erreichbar. V3 liegt vollständig im Unterverzeichnis `v3/` und verwendet die vorhandenen Bilder, Schrift und Formularregeln aus dem Hauptverzeichnis.
 
-Die Animation verwendet lokal mitgeliefertes Three.js 0.186.1 (MIT-Lizenz in `v3/vendor/THREE-LICENSE.txt`). Quelle: https://registry.npmjs.org/three/-/three-0.186.1.tgz. Technische Referenz: https://threejs.org/docs/pages/WebGLRenderer. Es gibt keinen Bibliotheksaufruf bei einem Drittanbieter im Besucherbrowser.
+Modellgeometrie und Animation wurden eigens für die Vorschau geschrieben, nicht als fertige Szene übernommen. Die Darstellung verwendet lokal mitgeliefertes Three.js 0.186.1 (MIT-Lizenz in `v3/vendor/THREE-LICENSE.txt`). Quelle: https://registry.npmjs.org/three/-/three-0.186.1.tgz. Technische Referenz: https://threejs.org/docs/pages/WebGLRenderer. Es gibt keinen Bibliotheksaufruf bei einem Drittanbieter im Besucherbrowser.
 
 Die Scrollposition bleibt nativ; es gibt weder erzwungene Scrollgeschwindigkeit noch eine Eingabesperre. Ein Schalter hält die Bewegung an und verkürzt den Einstieg. Die Systemeinstellung für reduzierte Bewegung führt direkt zur ruhigen Darstellung. Außerhalb des sichtbaren Einstiegs, bei verborgenem Tab und nach Abschluss einer Bewegung wird keine kontinuierliche Render-Schleife betrieben. Wenn WebGL oder das Modul nicht verfügbar ist, bleibt eine statische Illustration sichtbar und die lange Scrollstrecke entfällt.
 
-Desktop und Mobilansichten sind unterschiedlich komponiert. Prüfung: `python tests/check-structure.py v3`, `node --test tests/form-rules.test.cjs`. Details der manuellen Prüfung in `v3/PRUEFUNG.md`.
+Desktop und Mobilansichten sind unterschiedlich komponiert. Prüfung: `python tests/check-structure.py v3`, `node --test tests/build-timeline.test.mjs tests/form-rules.test.cjs`. Die Zeitfolge ist getrennt von der Darstellung prüfbar; insbesondere hebt sich das Dach vor dem Einschieben des Geschosses und bleibt bis zu dessen Einbau darüber. Details der manuellen Prüfung in `v3/PRUEFUNG.md`.
 
 ## Gestaltung 02
 
