@@ -21,7 +21,7 @@ class Structure(HTMLParser):
         if tag=='a' and a.get('href','').startswith('#'): self.references.append(a['href'][1:])
         for k in ('src','href'):
             u=a.get(k,'')
-            if u and not u.startswith('#') and not urlsplit(u).scheme: self.assets.append(u)
+            if u and not u.startswith('#') and not urlsplit(u).scheme: self.assets.append(urlsplit(u).path)
         if tag=='img':
             self.images+=1
             if 'alt' not in a: self.issues.append('Missing image alt')
