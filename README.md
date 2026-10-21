@@ -2,8 +2,21 @@
 
 Gestaltungsvorschau für das Bauzeichenbüro Ing. Josef Weissensteiner in St. Pölten. Keine veröffentlichte Geschäftswebsite, kein produktiver Anfrageeingang.
 
-- **Neue Fassung:** https://x10aix.github.io/weissensteiner-website/
+- **Variante 03 – Raum zum Weiterdenken:** https://x10aix.github.io/weissensteiner-website/v3/
+- **Variante 02 – Zukunft braucht einen Plan:** https://x10aix.github.io/weissensteiner-website/
 - **Erste Fassung zum Vergleich:** https://x10aix.github.io/weissensteiner-website/v1/
+
+## Gestaltung 03
+
+Ein räumlicher Einstieg mit einem eigens aufgebauten, illustrativen Hausmodell. Beim normalen Scrollen fügen sich Dach, Obergeschoss, Erdgeschoss und Gartenflügel zusammen; anschließend öffnet sich das Dach und die Kamera zeigt den Grundriss. Die drei Stationen sind auch über Schaltflächen erreichbar. Große Typografie, warmer Kupferton und eine helle Modellbaufläche bestimmen den Einstieg. Die folgenden Abschnitte führen durch Vorhaben, echte Projektabbildungen, Zusammenarbeit, Bauwissen, Vorbereitung und Kontakt.
+
+Das Modell ist ausdrücklich eine freie Illustration, kein ausgeführtes Projekt von Josef und keine technische Bauplanung. Die bisherigen Varianten bleiben unverändert erreichbar. V3 liegt vollständig im Unterverzeichnis `v3/` und verwendet die vorhandenen Bilder, Schrift und Formularregeln aus dem Hauptverzeichnis.
+
+Die Animation verwendet lokal mitgeliefertes Three.js 0.186.1 (MIT-Lizenz in `v3/vendor/THREE-LICENSE.txt`). Quelle: https://registry.npmjs.org/three/-/three-0.186.1.tgz. Technische Referenz: https://threejs.org/docs/pages/WebGLRenderer. Es gibt keinen Bibliotheksaufruf bei einem Drittanbieter im Besucherbrowser.
+
+Die Scrollposition bleibt nativ; es gibt weder erzwungene Scrollgeschwindigkeit noch eine Eingabesperre. Ein Schalter hält die Bewegung an und verkürzt den Einstieg. Die Systemeinstellung für reduzierte Bewegung führt direkt zur ruhigen Darstellung. Außerhalb des sichtbaren Einstiegs, bei verborgenem Tab und nach Abschluss einer Bewegung wird keine kontinuierliche Render-Schleife betrieben. Wenn WebGL oder das Modul nicht verfügbar ist, bleibt eine statische Illustration sichtbar und die lange Scrollstrecke entfällt.
+
+Desktop und Mobilansichten sind unterschiedlich komponiert. Prüfung: `python tests/check-structure.py v3`, `node --test tests/form-rules.test.cjs`. Details der manuellen Prüfung in `v3/PRUEFUNG.md`.
 
 ## Gestaltung 02
 

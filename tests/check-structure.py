@@ -3,13 +3,16 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
 import json
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+if len(sys.argv) > 1:
+    ROOT = (ROOT / sys.argv[1]).resolve()
 VOID = {'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}
 class Structure(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.ids=[]; self.references=[]; self.assets=[]; self.stack=[]; self.issues=[]; self.images=0; self.headings=0
+        self.ids=[]; self.references=[]; self.assets=[]; self.stack=[]; self.issues=[]; self.images=0; self.headings=0; self.required=[]
     def handle_starttag(self, tag, pairs):
         a=dict(pairs)
         if tag not in VOID:
@@ -26,6 +29,7 @@ class Structure(HTMLParser):
             self.images+=1
             if 'alt' not in a: self.issues.append('Missing image alt')
         if tag=='h1': self.headings+=1
+        if tag in {'input','select','textarea'} and 'required' in a: self.required.append(a.get('id'))
         if tag=='a' and a.get('target')=='_blank' and 'noopener' not in a.get('rel',''): self.issues.append('Unsafe target blank')
     def handle_endtag(self, tag):
         if tag in VOID: return
@@ -37,6 +41,7 @@ p.issues.extend('Missing target: '+x for x in p.references if x not in p.ids)
 p.issues.extend('Missing asset: '+x for x in p.assets if not ((ROOT/x).is_file() or (ROOT/x/'index.html').is_file()))
 if len(set(p.ids))!=len(p.ids): p.issues.append('Duplicate IDs')
 if p.headings!=1: p.issues.append('Expected exactly one h1')
+if p.required!=['contact']: p.issues.append('Expected contact to be the only required field')
 if p.stack: p.issues.append('Unclosed tags: '+str(p.stack))
 result={'status':'PASS' if not p.issues else 'FAIL','ids':len(p.ids),'references':len(p.references),'images':p.images,'local_resources_checked':len(p.assets),'issues':p.issues}
 print(json.dumps(result,ensure_ascii=False,indent=2))
