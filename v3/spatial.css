@@ -82,8 +82,8 @@ html{scroll-padding-top:32px}body{font-family:var(--sans);background:var(--paper
 /* Real before/after photographs, with one native keyboard-accessible slider. */
 .project-layout{grid-template-columns:minmax(0,2.1fr) minmax(0,1fr);gap:6%}
 .photo-comparison{--before:50%;position:relative;isolation:isolate;aspect-ratio:4/3;overflow:hidden;background:#d4d6c4;touch-action:pan-y;user-select:none;cursor:ew-resize}
-.photo-comparison img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
-.photo-comparison .comparison-before{clip-path:inset(0 calc(100% - var(--before)) 0 0)}
+.photo-comparison img{position:absolute;inset:auto;left:-26.470588%;top:-28.431373%;width:150.588235%;height:150.588235%;max-width:none;object-fit:fill;pointer-events:none;user-select:none;transform-origin:0 0}
+.comparison-before-layer{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--before)) 0 0);pointer-events:none}
 .comparison-label{position:absolute;top:18px;padding:7px 12px;background:#252d28e8;color:#f7efe1;font-size:10px;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
 .comparison-label-before{left:18px}.comparison-label-after{right:18px}
 .comparison-divider{position:absolute;top:0;bottom:0;left:var(--before);width:2px;background:#fff8ea;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 12px #0003}
