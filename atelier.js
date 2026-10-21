@@ -2,10 +2,12 @@
 const drawingScene = document.querySelector('.drawing-scene');
 const drawingRange = document.getElementById('drawing-range');
 function revealDrawing(value) {
-  const amount = Math.max(0, Math.min(100, Number(value)));
+  const amount = Math.round(Math.max(0, Math.min(100, Number(value))));
   drawingRange.value = amount;
   drawingScene.style.setProperty('--drawing', amount + '%');
   drawingRange.setAttribute('aria-valuetext', amount + ' Prozent Plan, ' + (100 - amount) + ' Prozent Foto');
+  document.querySelector('.scene-tag-plan').hidden = amount < 12;
+  document.querySelector('.scene-tag-photo').hidden = amount > 88;
   document.querySelectorAll('[data-drawing]').forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.drawing) === amount)));
 }
 drawingRange.addEventListener('input', () => revealDrawing(drawingRange.value));

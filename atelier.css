@@ -17,3 +17,4 @@ body{font-family:var(--sans);font-weight:450}h1,h2,h3{letter-spacing:-.065em}h2{
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.will-reveal{opacity:1;transform:none}*{animation:none!important;transition:none!important}}
 @media print{.atelier-hero,.draft-bar,.header,.drawing-scene{display:none}.will-reveal{opacity:1;transform:none}.law-section:after,.office:after{display:none}}
 .scene-images{cursor:ew-resize;touch-action:pan-y;user-select:none}.scene-images img{-webkit-user-drag:none}.drawing-divider span{box-shadow:0 0 0 5px #f29a7026}
+.hero-editorial h1 em{margin-left:.08em}
