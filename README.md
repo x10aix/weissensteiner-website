@@ -27,4 +27,8 @@ Für den späteren Echtbetrieb ist planung@buero-weissensteiner.at als Empfänge
 
 Projektbilder, Zeichnungen und Porträt aus dem bestehenden öffentlichen Büroauftritt: https://www.xn--bro-weissensteiner-m6b.at/. Eine Veröffentlichung dieses Entwurfs ist keine Freigabe zur anderweitigen Verwendung der Bilder. Keine erfundenen Projekte oder Kundenstimmen. Die Zeichnung und das Foto im Vergleich zeigen unterschiedliche Darstellungen, keinen maßstäblich deckungsgleichen Vorher-/Nachher-Vergleich.
 
-Manrope von Mikhail Sharanda und Mirko Velimirovic, SIL Open Font License 1.1; Lizenz in `assets/fonts/OFL.txt`, Quelle: https://github.com/google/fonts/tree/main/ofl/manrope.
+Manrope von Mikhail Sharanda und den Manrope Project Authors, SIL Open Font License 1.1; Lizenz in `assets/fonts/OFL.txt`, Quelle: https://github.com/google/fonts/tree/main/ofl/manrope.
+
+## Geprüft
+
+Desktopansicht (1.440 px) und schmale Ansichten (390 und 320 px) ohne horizontalen Seitenüberlauf; Plan-/Foto-Schaltflächen, Tastatur und direktes Ziehen im Bild; mobiles Menü; FAQ-Suche; Anfrage mit Telefonnummer allein. Die elf Formularprüfungen und die Strukturprüfung sind erfolgreich. Kein echter Versand oder Upload getestet, da absichtlich nicht angebunden.
