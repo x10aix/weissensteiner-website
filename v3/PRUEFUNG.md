@@ -1,4 +1,18 @@
-# Gestaltung 03.2 – Prüfung vom 21.10.2026
+# Gestaltung 03.3 – Prüfung vom 21.10.2026
+
+## Größeres Modell und Fotovergleich
+
+- Die Kamera rahmt das Haus und das angehobene Dach ein; zum Garten erweitert sie den Ausschnitt. Der äußere Modellsockel darf angeschnitten werden. Das eingeschobene Geschoss kommt von rechts ins Bild.
+- Kleinere begleitende Typografie und eine deutlich größere Modellfläche. Sobald die Kopfzeile aus dem Bild gescrollt ist, wird deren Fläche für die Baugeschichte genutzt.
+- 547 × 729: fertiger Neubau, Dachanhebung, teilweise eingeschobenes Geschoss bei 0,510 und vollständige Garage/Pergola bei 1,000 sichtbar geprüft.
+- 1440 × 900: großes fertiges Neubau-Modell. 1280 × 720: angehobenes Dach mit eingeschobenem Geschoss und Umschalten zur ruhigen Ansicht (720 px Gesamthöhe).
+- 390 × 844: Dachanhebung bei 0,440; 320 × 740: vollständiges Modell und ruhige Ansicht. Kein horizontaler Seitenüberlauf in den geprüften Größen.
+- Dachgeschossausbau: die vorhandenen Originalfotos umbau-bestand.jpg und umbau-entwurf.jpg liegen als Vorher/Nachher-Vergleich übereinander. Ihre leicht unterschiedlichen Blickwinkel werden in der Bildunterschrift benannt.
+- Direktes Ziehen im Browser verändert die Trennlinie (50 auf 80 Prozent Vorher geprüft). Home, End und die Schaltflächen zeigen die vollständigen Fotos; Vergleich setzt auf 50 Prozent zurück. Der native Regler hat einen verständlichen Namen und aktualisierten Werttext.
+- Mobilansicht des Fotovergleichs bei 390 × 844 geprüft. Die Planzeichnung lässt sich darunter öffnen und bleibt als eigene Abbildung verfügbar. Kein Test auf einem physischen Touchgerät.
+- Keine Konsolenfehler oder Warnungen. Die 16 vorhandenen Baufolge-/Formulartests sowie Struktur- und Syntaxprüfung erfolgreich. Nur Dateien in v3 geändert.
+
+## Prüfprotokoll der vorherigen Gestaltung 03.2
 
 ## Neue Baugeschichten
 

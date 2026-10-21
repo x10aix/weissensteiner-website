@@ -33,6 +33,8 @@ try {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.35;
   const camera = new THREE.OrthographicCamera(-7, 7, 5, -5, .1, 100);
+  const focusCenter = new THREE.Vector3(), focusCorner = new THREE.Vector3();
+  const cameraOffset = new THREE.Vector3();
   scene.add(new THREE.HemisphereLight(0xfff6e8, 0x718075, 2.6));
   const sun = new THREE.DirectionalLight(0xffecd2, 4.5);
   sun.position.set(-4, 10, 6);
@@ -181,6 +183,7 @@ try {
   const still=()=>paused||reduced.matches;
   function readScroll() {
     const rect=story.getBoundingClientRect();
+    story.classList.toggle('has-started',!still()&&rect.top < -144);
     const distance=story.offsetHeight-stage.offsetHeight;
     target=still()? 1 : clamp(-rect.top/Math.max(1,distance));
     requestRender();
@@ -244,13 +247,25 @@ try {
     });
     model.rotation.y=-.12+.1*build.firstRoof-.19*build.gardenView+smoothX*.055;
     const roofHigh=build.lift*(1-build.reseat);
-    camera.position.set(11*Math.cos(.93),8.8+.4*roofHigh-.5*build.gardenView+smoothY*.1,11*Math.sin(.93));
-    const lookY=1.65+.5*(1-build.firstRoof)+.75*roofHigh+.25*build.floor-(size.width>size.height?.4:0);
-    camera.lookAt(.4,lookY,.6+build.gardenView*.3);
+    // Frame the architecture, not the outer display plinth. The view opens
+    // continuously toward the garden only when the third story begins.
+    const bounds={left:-2.7,right:2.7+2.4*build.gardenView,back:-2.1,front:2.1+2.9*build.gardenView,bottom:-.3,top:build.roofY+1.32};
+    model.updateMatrixWorld(true);
+    focusCenter.set((bounds.left+bounds.right)/2,(bounds.bottom+bounds.top)/2,(bounds.back+bounds.front)/2).applyMatrix4(model.matrixWorld);
+    cameraOffset.set(11*Math.cos(.93),8.8+.4*roofHigh-.5*build.gardenView+smoothY*.1,11*Math.sin(.93));
+    camera.position.copy(focusCenter).add(cameraOffset);
+    camera.lookAt(focusCenter);
+    camera.updateMatrixWorld(true);
+    let halfWidth=0,halfHeight=0;
+    for(const x of [bounds.left,bounds.right])for(const y of [bounds.bottom,bounds.top])for(const z of [bounds.back,bounds.front]){
+      focusCorner.set(x,y,z).applyMatrix4(model.matrixWorld).applyMatrix4(camera.matrixWorldInverse);
+      halfWidth=Math.max(halfWidth,Math.abs(focusCorner.x));
+      halfHeight=Math.max(halfHeight,Math.abs(focusCorner.y));
+    }
     const aspect=size.width/Math.max(1,size.height);
-    const height=Math.max(11.4,12/aspect);
+    const height=Math.max(halfHeight*2,halfWidth*2/aspect)*1.06;
     camera.left=-height*aspect/2;camera.right=height*aspect/2;camera.top=height/2;camera.bottom=-height/2;
-    camera.zoom=1.06-.06*build.gardenView;
+    camera.zoom=1;
     camera.updateProjectionMatrix();
     renderer.render(scene,camera);
     const nextPhase=build.phase;

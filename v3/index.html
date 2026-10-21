@@ -8,11 +8,11 @@
   <meta name="theme-color" content="#eae7df">
   <title>Raum zum Weiterdenken · Weissensteiner | Entwurf 03</title>
   <link rel="stylesheet" href="../style.css?v=20261021-2">
-  <link rel="stylesheet" href="spatial.css?v=3.2.1">
+  <link rel="stylesheet" href="spatial.css?v=3.3">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <script src="../form-rules.js?v=20261021-2" defer></script>
-  <script src="app.js?v=3.1" defer></script>
-  <script src="spatial.js?v=3.2" type="module"></script>
+  <script src="app.js?v=3.3" defer></script>
+  <script src="spatial.js?v=3.3" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#inhalt">Zum Inhalt</a>
@@ -63,7 +63,21 @@
 
     <section id="projekte" class="project-section">
       <div class="wrap"><div class="section-head project-heading"><div><p class="eyebrow">02 / Einblicke in die Zeichenarbeit</p><h2>Die Möglichkeit<br><em>im Bestehenden.</em></h2></div><p>Fotos zeigen den Raum.<br>Zeichnungen machen die Veränderung nachvollziehbar.</p></div>
-      <div class="project-layout"><div class="project-view"><div class="project-controls" role="group" aria-label="Projektansicht auswählen"><button type="button" aria-pressed="true" data-project-view="bestand">Bestand</button><button type="button" aria-pressed="false" data-project-view="plan">Plan</button><button type="button" aria-pressed="false" data-project-view="foto">Foto danach</button></div><figure><img id="project-image" src="../assets/umbau-bestand.jpg" alt="Wohnhaus vor dem Dachausbau, Foto aus dem bestehenden Projektauftritt" width="1024" height="768" loading="lazy"><figcaption id="project-caption" aria-live="polite">Bestandsfoto aus der Rubrik „Umbau/Zubau“ des bisherigen Auftritts.</figcaption></figure></div><div class="project-text"><p class="eyebrow">Ein Beispiel aus dem bestehenden Auftritt</p><h3>Ein Dachgeschoss<br>wird weitergedacht.</h3><p>Der Wechsel zwischen Bestand, Planzeichnung und Foto zeigt, wie ein Vorhaben aus unterschiedlichen Blickwinkeln verständlich wird.</p><dl><div><dt>Vorhaben</dt><dd>Ausbau eines Dachgeschosses</dd></div><div><dt>Einblick</dt><dd>Ansichten, Schnitte und Grundrisse</dd></div></dl><p class="editor-note">Aus dem bisherigen Büroauftritt. Projektbeschreibung, genauer Beitrag des Büros und Bildfreigabe werden vor dem regulären Geschäftsauftritt mit Josef abgestimmt.</p><a class="text-link" href="#kontakt" data-intent="Zubau / Ausbau">Über eine ähnliche Idee sprechen <span aria-hidden="true">↗</span></a></div></div>
+      <div class="project-layout"><div class="project-view">
+        <figure>
+          <div class="photo-comparison" id="project-comparison">
+            <img class="comparison-after" src="../assets/umbau-entwurf.jpg" alt="Nachher: Das Wohnhaus mit ausgebautem Dachgeschoss und zusätzlichem Balkon" width="1024" height="768" loading="lazy" draggable="false">
+            <img class="comparison-before" src="../assets/umbau-bestand.jpg" alt="Vorher: Das Wohnhaus mit geschlossenem Satteldach vor dem Dachgeschossausbau" width="1024" height="768" loading="lazy" draggable="false">
+            <span class="comparison-label comparison-label-before" aria-hidden="true">Vorher</span><span class="comparison-label comparison-label-after" aria-hidden="true">Nachher</span>
+            <span class="comparison-divider" aria-hidden="true"><span>↔</span></span>
+            <label for="project-comparison-range" class="visually-hidden">Vorher und nachher vergleichen</label>
+            <input id="project-comparison-range" type="range" min="0" max="100" value="50" step="1" aria-valuetext="50 Prozent Vorher, 50 Prozent Nachher" aria-describedby="comparison-help" disabled>
+          </div>
+          <div class="comparison-toolbar" hidden><div role="group" aria-label="Fotovergleich einstellen"><button type="button" data-comparison="100" aria-pressed="false">Vorher</button><button type="button" data-comparison="50" aria-pressed="true">Vergleich</button><button type="button" data-comparison="0" aria-pressed="false">Nachher</button></div><span class="comparison-hint" aria-hidden="true">↔ Im Bild verschieben</span></div>
+          <figcaption class="comparison-caption" id="comparison-help">Das bestehende Haus und sein ausgebautes Dachgeschoss. Zwei Originalfotos aus leicht unterschiedlichen Blickwinkeln. Mit dem Regler oder den Pfeiltasten vergleichen.</figcaption>
+        </figure>
+        <details class="project-plan"><summary>Die Planzeichnung dazu ansehen ↗</summary><figure><img src="../assets/umbau-plan.jpg" alt="Einreichplan mit Ansichten, Schnitten und Grundrissen zum Ausbau des Dachgeschosses" width="1920" height="1086" loading="lazy"><figcaption>Planblatt aus dem bisherigen Projektauftritt.</figcaption></figure></details>
+      </div><div class="project-text"><p class="eyebrow">Ein Beispiel aus dem bestehenden Auftritt</p><h3>Ein Dachgeschoss<br>wird weitergedacht.</h3><p>Ein zusätzlicher Wohnbereich unter dem Dach: Verschieben Sie die Trennlinie und entdecken Sie die Veränderung am bestehenden Haus.</p><dl><div><dt>Vorhaben</dt><dd>Ausbau eines Dachgeschosses</dd></div><div><dt>Einblick</dt><dd>Ansichten, Schnitte und Grundrisse</dd></div></dl><p class="editor-note">Aus dem bisherigen Büroauftritt. Projektbeschreibung, genauer Beitrag des Büros und Bildfreigabe werden vor dem regulären Geschäftsauftritt mit Josef abgestimmt.</p><a class="text-link" href="#kontakt" data-intent="Zubau / Ausbau">Über eine ähnliche Idee sprechen <span aria-hidden="true">↗</span></a></div></div>
       <div class="project-secondary"><figure><img src="../assets/haus-ansicht.jpg" width="1920" height="1200" alt="Dreidimensionale Visualisierung eines Einfamilienhauses aus der bisherigen Neubau-Galerie" loading="lazy"><figcaption><span>Neubau / Einfamilienhaus</span><strong>Eine Idee räumlich verstehen.</strong><span>Projektvisualisierung aus dem bestehenden Auftritt</span></figcaption></figure><figure><img src="../assets/neubau-plan.jpg" width="1920" height="1176" alt="Planblatt mit Grundrissen und Ansichten eines Einfamilienhauses aus der bisherigen Neubau-Galerie" loading="lazy"><figcaption><span>Neubau / Zeichnung</span><strong>Das Zusammenspiel im Detail.</strong><span>Planabbildung aus dem bestehenden Auftritt</span></figcaption></figure></div>
       </div>
     </section>
