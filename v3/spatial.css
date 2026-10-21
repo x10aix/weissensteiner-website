@@ -38,5 +38,63 @@ html{scroll-padding-top:32px}body{font-family:var(--sans);background:var(--paper
 #build-progress:focus-visible{outline-offset:-3px}
 .is-still .scene-progress{display:none}
 .spatial-story:not(.is-interactive) .scene-progress,.spatial-story:not(.is-interactive) .scroll-prompt{display:none}
-@media(min-width:451px) and (max-width:650px){.model-view{top:43%;height:42%}}
-@media(max-width:650px) and (max-height:700px){.model-view{top:42%;height:40%}}
+/* The architecture has the main stage. Type accompanies the construction. */
+.spatial-title{top:27%;left:3.7%;width:24%;z-index:4}
+.hero-word,.spatial-story[data-scene-phase="3"] .hero-word{font-size:clamp(62px,8.2vw,142px);letter-spacing:-.075em}
+.hero-thought{font-size:clamp(23px,2.5vw,42px);margin:20px 0 0;max-width:270px}
+.model-view{left:24%;width:76%;top:14%;height:75%;overflow:hidden}
+.model-note{right:2.5%;bottom:12%;font-size:7px}
+.hero-invitation{width:24%;bottom:17%}
+.annotation-top{top:18%;right:4%;max-width:45%}
+.annotation-bottom{display:none}
+.has-started .location-label{top:35px}
+.has-started .model-view{top:6%;height:83%}
+.has-started .annotation-top{top:10%}
+@media(min-width:651px) and (max-width:900px){
+  .spatial-title{width:25%;top:29%}.hero-word,.spatial-story[data-scene-phase="3"] .hero-word{font-size:9vw}
+  .hero-thought{font-size:25px}.model-view{left:25%;width:75%;top:19%;height:66%}
+  .hero-invitation p{font-size:10px}.spatial-cta{font-size:11px;gap:12px}
+}
+@media(max-width:650px){
+  .spatial-title{left:21px;top:145px;width:calc(100% - 42px);display:flex;align-items:center;gap:22px}
+  .hero-word,.spatial-story[data-scene-phase="3"] .hero-word{font-size:62px;line-height:1}
+  .hero-thought{font-size:20px;line-height:1.16;letter-spacing:-.045em;margin:0;max-width:none}
+  .model-view{left:0;top:211px;width:100%;height:calc(100% - 351px)}
+  .model-note{writing-mode:horizontal-tb;right:21px;bottom:1px;font-size:6px}
+  .hero-invitation{left:21px;width:calc(100% - 42px);bottom:94px}
+  .hero-invitation p{max-width:210px;font-size:10px}
+  .spatial-cta{font-size:10px;gap:12px}
+  .scene-navigation{bottom:23px}.scene-caption{padding-top:3px}
+  .has-started .location-label{top:27px}
+  .has-started .spatial-title{top:57px}
+  .has-started .model-view{top:128px;height:calc(100% - 268px)}
+}
+@media(max-width:360px){
+  .spatial-title{left:17px;width:calc(100% - 34px);gap:14px}
+  .hero-word,.spatial-story[data-scene-phase="3"] .hero-word{font-size:51px}.hero-thought{font-size:17px}
+  .model-view{top:201px;height:calc(100% - 341px)}
+  .hero-invitation{left:17px;width:calc(100% - 34px);gap:10px}.hero-invitation p{font-size:8px}.spatial-cta{font-size:9px;gap:6px}
+}
+@media(max-width:650px) and (max-height:700px){
+  .spatial-title{top:134px}.hero-word,.spatial-story[data-scene-phase="3"] .hero-word{font-size:48px}.hero-thought{font-size:17px}
+  .model-view{top:184px;height:calc(100% - 314px)}.hero-invitation{bottom:88px}
+}
+/* Real before/after photographs, with one native keyboard-accessible slider. */
+.project-layout{grid-template-columns:minmax(0,2.1fr) minmax(0,1fr);gap:6%}
+.photo-comparison{--before:50%;position:relative;isolation:isolate;aspect-ratio:4/3;overflow:hidden;background:#d4d6c4;touch-action:pan-y;user-select:none;cursor:ew-resize}
+.photo-comparison img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none}
+.photo-comparison .comparison-before{clip-path:inset(0 calc(100% - var(--before)) 0 0)}
+.comparison-label{position:absolute;top:18px;padding:7px 12px;background:#252d28e8;color:#f7efe1;font-size:10px;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.comparison-label-before{left:18px}.comparison-label-after{right:18px}
+.comparison-divider{position:absolute;top:0;bottom:0;left:var(--before);width:2px;background:#fff8ea;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 12px #0003}
+.comparison-divider span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50px;height:50px;border:1px solid #fff7e7;border-radius:50%;background:#f3ebdd;color:#343c31;display:grid;place-items:center;font-size:22px;box-shadow:0 3px 20px #17221940}
+#project-comparison-range{position:absolute;inset:0;z-index:2;width:100%;height:100%;min-height:0;margin:0;padding:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.photo-comparison:focus-within{outline:3px solid #efbf9f;outline-offset:6px}
+.photo-comparison:focus-within .comparison-divider span{outline:3px solid #ad4527;outline-offset:3px}
+.comparison-toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:15px 0;border-bottom:1px solid #647264;font-size:10px}
+.comparison-toolbar>div{display:flex;align-items:center;gap:15px}.comparison-toolbar button{padding:8px 0;background:none;border:0;border-bottom:1px solid transparent;color:#d5ddc9;min-height:36px;font-size:11px}
+.comparison-toolbar button[aria-pressed=true]{color:#f0c3a8;border-bottom-color:#f0c3a8}.comparison-hint{color:#c1cbb5}
+.project-plan{margin-top:22px;border-block:1px solid #647264}.project-plan summary{cursor:pointer;padding:17px 0;font-size:12px;color:#f0c3a8}.project-plan figure{padding-bottom:16px}.project-plan img{aspect-ratio:auto;height:auto;background:#eee}
+.project-view .comparison-caption{font-size:10px;padding-top:14px;line-height:1.7}
+@media(max-width:900px){.project-layout{display:block}.project-text{max-width:600px;padding-top:35px}}
+@media(max-width:650px){.comparison-label{top:12px;font-size:8px;padding:6px 9px}.comparison-label-before{left:12px}.comparison-label-after{right:12px}.comparison-divider span{width:44px;height:44px}.comparison-toolbar{gap:10px}.comparison-toolbar>div{gap:12px}.comparison-hint{font-size:8px}.comparison-toolbar button{font-size:10px}.project-text{padding-top:30px}}

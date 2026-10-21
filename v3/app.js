@@ -20,17 +20,45 @@ tabs.forEach((tab, index) => {
   });
 });
 
-const projectViews = {
-  bestand: {src: '../assets/umbau-bestand.jpg', alt: 'Wohnhaus vor dem Dachausbau, Foto aus dem bestehenden Projektauftritt', caption: 'Bestandsfoto aus der Rubrik „Umbau/Zubau“ des bisherigen Auftritts.'},
-  plan: {src: '../assets/umbau-plan.jpg', alt: 'Einreichplan mit Ansichten, Schnitten und Grundrissen zum Ausbau eines Dachgeschosses', caption: 'Planblatt zum Dachgeschossausbau. Quelle: bestehender Projektauftritt; genaue Leistungen und Projektbeschreibung sind noch abzustimmen.'},
-  foto: {src: '../assets/umbau-entwurf.jpg', alt: 'Wohnhaus nach dem Ausbau, Foto aus dem bestehenden Projektauftritt', caption: 'Im bisherigen Auftritt als „Bild nachher“ veröffentlicht. Die neue Projektbeschreibung wird mit Josef abgestimmt.'}
-};
-document.querySelectorAll('[data-project-view]').forEach(button => button.addEventListener('click', () => {
-  const view = projectViews[button.dataset.projectView];
-  document.querySelectorAll('[data-project-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-  const img = document.getElementById('project-image'); img.src = view.src; img.alt = view.alt;
-  document.getElementById('project-caption').textContent = view.caption;
-}));
+// A clipped original photograph sits above the after photograph. The native
+// range remains the single focusable slider; pointer gestures use the full image.
+const comparison = document.getElementById('project-comparison');
+const comparisonRange = document.getElementById('project-comparison-range');
+const comparisonButtons = [...document.querySelectorAll('[data-comparison]')];
+function updateComparison(value) {
+  const before = Math.max(0, Math.min(100, Math.round(Number(value))));
+  comparisonRange.value = before;
+  comparison.style.setProperty('--before', before + '%');
+  comparisonRange.setAttribute('aria-valuetext', before === 0 ? 'Nur Nachher' : before === 100 ? 'Nur Vorher' : before + ' Prozent Vorher, ' + (100 - before) + ' Prozent Nachher');
+  comparisonButtons.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.comparison) === before)));
+  comparison.querySelector('.comparison-label-before').hidden = before < 15;
+  comparison.querySelector('.comparison-label-after').hidden = before > 85;
+}
+comparisonRange.addEventListener('input', () => updateComparison(comparisonRange.value));
+comparisonButtons.forEach(button => button.addEventListener('click', () => updateComparison(button.dataset.comparison)));
+let comparisonPointer = null;
+function moveComparison(event) {
+  const rect = comparison.getBoundingClientRect();
+  updateComparison((event.clientX - rect.left) / rect.width * 100);
+}
+comparison.addEventListener('pointerdown', event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  comparisonPointer = event.pointerId;
+  comparisonRange.focus({preventScroll: true});
+  comparison.setPointerCapture(event.pointerId);
+  moveComparison(event);
+  // Keep the native range from applying its own different thumb geometry.
+  event.preventDefault();
+});
+comparison.addEventListener('pointermove', event => {if (event.pointerId === comparisonPointer) moveComparison(event);});
+for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) comparison.addEventListener(type, event => {
+  if (event.pointerId !== comparisonPointer) return;
+  if (comparison.hasPointerCapture(event.pointerId)) comparison.releasePointerCapture(event.pointerId);
+  comparisonPointer = null;
+});
+comparisonRange.disabled = false;
+document.querySelector('.comparison-toolbar').hidden = false;
+updateComparison(comparisonRange.value);
 
 const faqSearch = document.getElementById('faq-search');
 const questions = [...document.querySelectorAll('#faq-list > details')];
