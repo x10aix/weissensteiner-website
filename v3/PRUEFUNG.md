@@ -1,4 +1,16 @@
-# Gestaltung 03.3.1 – Fotoausrichtung, 21.10.2026
+# Gestaltung 03.4 – Lesbarkeit, 27.10.2026
+
+- Bestehende Three.js-Variante beibehalten. Die separate Datei `readability.css` passt ausschließlich v3 an; Hausgeometrie, Baufolge, Fotografien und Formularlogik bleiben erhalten.
+- Haupttexte überwiegend 18 px am Desktop und 17 px auf schmalen Ansichten. Hinweise und Bildunterschriften 15 px, Bedienung überwiegend 16 px. Abschnittsüberschriften auf 36–56 px am Desktop und 32–40 px mobil begrenzt. Lesespalten, Abstände und Umbrüche angepasst.
+- Orangefarbener Bauwissen-Abschnitt: Hintergrund #e7a07d und dunkle Texte #241c17. Im Browser ermittelte Farben ergeben 7,756:1 Kontrast, auch für Quellen, Untertitel und Hinweistext. Maßstab: https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html .
+- Im Browser bei 1280 × 900, 390 × 844 und 320 × 740 geprüft: kein horizontaler Seitenüberlauf, mobile Kopfzeile ohne Textüberschneidung, Szene und größere Bedienung sichtbar. Bei 640 × 450 bleiben die Bedienelemente durch normales Scrollen erreichbar; dies ist ein Reflow-Test, kein Test der tatsächlichen Browser-Zoomfunktion.
+- Mobiles Menü öffnet, führt zum Bauwissen und schließt. Carport-Information lässt sich per Enter öffnen. Fotovergleich per End auf vollständiges Vorher und per Schaltfläche zurück auf 50 Prozent gesetzt. FAQ-Suche „Pergola“ zeigt eine Frage. Ruhige Darstellung per Bewegungsschalter geprüft. Keine Konsolenfehler oder Warnungen bei diesen Bedienungen.
+- Strukturprüfung erfolgreich: 52 eindeutige IDs, 53 Referenzen, 17 lokale Ressourcen, keine Probleme. Alle 16 vorhandenen Baufolge- und Formularprüfungen erfolgreich. Keine neuen Tests für bloße CSS-Werte angelegt.
+- Lokale Vorschau auf Feature-Branch `fix/v3-lesbarkeit`. Keine Veröffentlichung dieser Änderung. Gezielte Lesbarkeitskorrektur; keine vollständige WCAG-Abnahme und kein Test auf einem physischen Mobilgerät. Fachliche und rechtliche Inhalte wurden nicht neu geprüft.
+
+## Bisheriger Prüfstand
+
+## Gestaltung 03.3.1 – Fotoausrichtung, 21.10.2026
 
 - Vorher-Foto in der Browserdarstellung anhand von vier korrespondierenden Balkon-/Stützenecken auf die Fassadenebene des Nachher-Fotos ausgerichtet. Geometrische Perspektivkorrektur; die Originaldateien bleiben erhalten.
 - Gemeinsamer Bildausschnitt auf Haus und Dach: x=180, y=145, 680 × 510 Pixel innerhalb der 1024 × 768 Originale. Kein wechselnder Bildmaßstab beim Bewegen des Reglers.
